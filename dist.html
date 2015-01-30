@@ -34,6 +34,7 @@
 
     if(parent==window) {
         window.onload = function() {
+            
             var hashstring = window.location.hash.substring(1);
 
             if(hashstring.length == 0) {
@@ -48,7 +49,7 @@
                 return;
             }
 
-            if(data.length != 264 && data.length != 260 && data.length != 232) {
+            if(data.length != 260 && data.length != 232) {
                 document.body.innerHTML += "<h1>INVALID DATA SIZE</h1>";
                 return;
             }
@@ -58,27 +59,15 @@
                 arr[i++] = ( data.charCodeAt(j) & 255 ) + ( data.charCodeAt(j + 1) << 8 );
             data = String.fromCharCode.apply(null, arr);
 
-            if(data.length == 132)
-                payload = injectWc(payload, data);
-            else
-                payload = injectPkx(payload, data);
+            payload = [ payload.substring(  0, 264), data.substring(112, 116),
+                        payload.substring(268, 272), data.substring(  0, 112)].join("");
 
-            exploit();
+            document.body.innerHTML += "<h1>RUNNING EXPLOIT</h1>";
+            document.body.innerHTML += "<iframe src='#' />";
         }
     } else if(navigator.userAgent.indexOf('Nintendo 3DS') != -1) {
 
         window.onload = documentLoaded;
-    }
-
-    function injectPkx(payload, pkx) {
-
-        return [ payload.substring(  0, 264), pkx.substring(112, 116),
-                 payload.substring(268, 272), pkx.substring(  0, 112)].join("");
-    }
-
-    function injectWc(wc) {
-
-        //TODO
     }
 
     function magicfun(mem, size, v) {
@@ -95,11 +84,6 @@
         for (var j = 20; j < 430; j++) {
             magicfun(mem, j, unescape(payload));
         }
-    }
-
-    function exploit() {
-        document.body.innerHTML += "<h1>RUNNING EXPLOIT</h1>";
-        document.body.innerHTML += "<iframe src='#' />";
     }
 
     function handleBeforeLoad() {
