@@ -232,7 +232,7 @@ function checkPkx(str) {
     if(!valChk(pk)) {
         decryptPkx(pk);
         if(!valChk(pk))
-            throw new Error("BAD CHECKSUM");
+            throw new Error("BAD CHECKSUM<br />OPEN FILE IN PKHEX AND RESAVE");
     }
     encryptPkx(pk);
     return String.fromCharCode.apply(null, pk);
