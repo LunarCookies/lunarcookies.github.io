@@ -4,8 +4,7 @@
 <style type="text/css">
 
     div, h1, h4 { text-align: center; }
-    #clothes input { width: 50px; margin: 7px;}
-    #clothes input::before { content: attr("name"); }
+    #clothes input[type="number"] { width: 50px; margin: 7px;}
     #clothes { width: 300px; text-align: center; min-height: 140px; margin: auto; display: inline-block; }
     .error { color: red; }
     .good { color: green; }
@@ -56,7 +55,7 @@ addEventHandler(window, 'load', function () {
                 return !isNaN(x) && x >= 0 && x < 32;
         });
 
-        var clothes = $('#clothes input[name]').map(function(){ 
+        var clothes = $('#clothes input[name][type="number"]').map(function(){ 
             return parseInt( $(this).val() )
         }).filter( function (i, x) {
             return !isNaN(x) && x >= 0 && x < 256;
@@ -66,6 +65,14 @@ addEventHandler(window, 'load', function () {
             status.className = 'error';
             status.innerHTML = "incorrect values";
             return;
+        }
+
+        if($('#chk3ds')[0].checked) {
+            clothes.push(1);
+            clothes.push(parseInt($('#clothes input[type="radio"]:checked')[0].value));
+        } else {
+            clothes.push(0);
+            clothes.push(0);
         }
 
         $('#clothes input[name=B]')[0].value = clothes[1] = hathair[0] + hathair[1] * 8;
@@ -88,6 +95,14 @@ addEventHandler(window, 'load', function () {
 
     });
 
+function check() {
+        if($('#chk3ds')[0].checked) {
+            $('#clothes input[type="radio"]').removeAttr('disabled');
+        } else {
+            $('#clothes input[type="radio"]').attr('disabled','disabled');
+        }
+    }
+
 function addEventHandler(obj, evt, handler) {
     if (obj.addEventListener) {
         obj.addEventListener(evt, handler, false);
@@ -104,7 +119,7 @@ function addEventHandler(obj, evt, handler) {
     <h1>An Online Clothing Injector</h1>
     <div>
         <label name="server">Server: </label>
-        <input size=28 name="server" type="text" id="server" value="http://lunarcookies.github.io/vest2.html#">
+        <input size=28 name="server" type="text" id="server" value="http://lunarcookies.github.io/vest3.html#">
     </div>
     <h4 id="status">fensy berbys i tel ya</h4>
     <div>
@@ -127,6 +142,11 @@ function addEventHandler(obj, evt, handler) {
             <input type="number" value="0" name="N" min="0" max="255">
             <input type="number" value="0" name="O" min="0" max="255">
             <input type="number" value="0" name="P" min="0" max="255">
+            <input type="checkbox" id="chk3ds" onclick="check();" />Serena's 3DS
+            <input type="radio" name="s3ds" value="0" disabled checked />Remove
+            <input type="radio" name="s3ds" value="1"  disabled />Give<br />
+            <br />
+
             <button id="gen">QR Gen</button>
         </div>
         <div id="drop"></div>
