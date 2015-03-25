@@ -31,10 +31,12 @@ var payload =
     if(parent==window) {
         window.onload = function() {
             var hash = window.location.hash.substring(1);
-            if(hash.length > 20)
+            var len  = hash.length;
+            if(len > 20)
                 document.body.innerHTML += "<h1>LENGTH INVALID</h1>";
-            else if(hash.length > 0) {
+            else if(len > 0) {
                 payload = payload.replace('code.bin', hash).substring(0, 384);
+                if(len < 8) payload += Array(9-len).join('\0');
                 document.body.firstChild.innerHTML = "<h1>Loadcode ["+ hash +"]</h1>";
             }
 
