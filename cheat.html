@@ -49,7 +49,6 @@ addEventHandler(window, 'load', function () {
     var qrgen = document.getElementById('qrgen');
     var chke = document.getElementById('chke');
     var regexp = /^[\dA-F]{8} [\dA-F]{8}$/i;
-    var revopt = true;
 
     qrcode = new QRCode(drop, {
         text: "",
@@ -82,7 +81,7 @@ addEventHandler(window, 'load', function () {
 
         var codes = [];
         var contents = [];
-        var erev = revopt;
+        var erev = chke.checked;
 
         try {
             qrcode.clear();
@@ -110,12 +109,7 @@ addEventHandler(window, 'load', function () {
         }
     }
 
-    function check() {
-        revopt = chke.checked;
-    }
-
     addEventHandler(qrgen, 'click', gencode);
-    addEventHandler(chke, 'click', check);
 });
 
 </script>
